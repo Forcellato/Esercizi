@@ -1,66 +1,46 @@
 package forcellato.francesco.giocotris;
 
-import android.content.res.Resources;
-import android.graphics.Color;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.TableLayout;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.Observable;
-import java.util.Observer;
-
-public class MainActivity extends AppCompatActivity implements Observer {
-    private int LUNGHEZZA = 3;
-    private Button[][] matrice;
+public class MainActivity extends AppCompatActivity {
+    private static final int GIOCO_ACTIVITY = 2;
+    private EditText g1;
+    private EditText g2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        start();
-        findViewById(R.id.btnStart).setOnClickListener(view -> {
-            start();
+
+        Button btn = findViewById(R.id.btnAct);
+        g1 = findViewById(R.id.giocatore1);
+        g2 = findViewById(R.id.giocatore2);
+        btn.setOnClickListener((view) -> {
+            if (g1.getText() != null && g2.getText() != null && g1.getText().toString().compareTo("") != 0 && g1.getText().toString().compareTo("") != 0) {
+                if (g1.length() <= 10 && g2.length() <= 10) {
+                    Intent i = new Intent(this, GiocoActivity.class);
+                    i.putExtra("g1", g1.getText().toString());
+                    i.putExtra("g2", g2.getText().toString());
+                    startActivityForResult(i, GIOCO_ACTIVITY);
+                }else{
+                    Toast.makeText(getApplicationContext(), "Nomi dei giocatori troppo lunghi", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Inserire i nomi dei giocatori", Toast.LENGTH_LONG).show();
+            }
         });
     }
 
-    public void start() {
-        Tris t = new Tris();
-        //Toast.makeText(getApplicationContext(), t.getGiocatore(), Toast.LENGTH_SHORT).show();
-        t.addObserver(this);
-        matrice = new Button[LUNGHEZZA][LUNGHEZZA];
-        Resources r = getResources();
-        String name = getPackageName();
-        for (int i = 0; i < LUNGHEZZA; i++) {
-            for (int j = 0; j < LUNGHEZZA; j++) {
-                matrice[i][j] = findViewById(r.getIdentifier("btn" + i + "" + j, "id", name));
-                int riga = i;
-                int colonna = j;
-                matrice[i][j].setText("");
-                matrice[i][j].setOnClickListener(view -> {
-                    //Toast.makeText(getApplicationContext(), riga + " " + colonna, Toast.LENGTH_SHORT).show();
-                    t.setMossa(riga, colonna);
-                });
-            }
-        }
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        Mossa m = (Mossa) arg;
-        //Toast.makeText(getApplicationContext(), m.toString(), Toast.LENGTH_SHORT).show();
-        if (!m.haVinto()) {
-            //non ha vinto
-            matrice[m.getRiga()][m.getColonna()].setText(m.getGiocatore() == giocatore.giocatore1 ? "X" : "O");
-        } else {
-            //ha vinto!!!
-            matrice[m.getRiga()][m.getColonna()].setText(m.getGiocatore() == giocatore.giocatore1 ? "X" : "O");
-            if (m.getGiocatore()==giocatore.giocatore1){
-                Toast.makeText(getApplicationContext(), "Ha vinto il giocatore 1", Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(getApplicationContext(), "Ha vinto il giocatore 2", Toast.LENGTH_LONG).show();
-            }
+    public void onActivityResult(int requestCode,
+                                 int resultCode, Intent data) {
+        if (requestCode == GIOCO_ACTIVITY) {
+            g1.setText("");
+            g2.setText("");
         }
     }
 }

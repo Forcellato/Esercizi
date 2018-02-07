@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/txtG1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:text="@string/start"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/txtG2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:text="@string/start"
+                android:textSize="30dp" />
+
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:id="@+id/tblId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btn00"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:backgroundTint="@color/bluscuro"
+                android:gravity="center"
+                android:padding="3dp"
+                android:textColor="@color/bianco"
+                android:textSize="50dp" />
+
+            <Button
+                android:id="@+id/btn01"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:backgroundTint="@color/bluscuro"
+                android:gravity="center"
+                android:padding="3dp"
+                android:textColor="@color/bianco"
+                android:textSize="50dp" />
+
+            <Button
+                android:id="@+id/btn02"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:backgroundTint="@color/bluscuro"
+                android:gravity="center"
+                android:padding="3dp"
+                android:textColor="@color/bianco"
+                android:textSize="50dp" />
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btn10"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:backgroundTint="@color/bluscuro"
+                android:gravity="center"
+                android:padding="3dp"
+                android:textColor="@color/bianco"
+                android:textSize="50dp" />
+
+            <Button
+                android:id="@+id/btn11"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:backgroundTint="@color/bluscuro"
+                android:gravity="center"
+                android:padding="3dp"
+                android:textColor="@color/bianco"
+                android:textSize="50dp" />
+
+            <Button
+                android:id="@+id/btn12"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:backgroundTint="@color/bluscuro"
+                android:gravity="center"
+                android:padding="3dp"
+                android:textColor="@color/bianco"
+                android:textSize="50dp" />
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btn20"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:backgroundTint="@color/bluscuro"
+                android:gravity="center"
+                android:padding="3dp"
+                android:textColor="@color/bianco"
+                android:textSize="50dp" />
+
+            <Button
+                android:id="@+id/btn21"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:backgroundTint="@color/bluscuro"
+                android:gravity="center"
+                android:padding="3dp"
+                android:textColor="@color/bianco"
+                android:textSize="50dp" />
+
+            <Button
+                android:id="@+id/btn22"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:backgroundTint="@color/bluscuro"
+                android:gravity="center"
+                android:padding="3dp"
+                android:textColor="@color/bianco"
+                android:textSize="50dp" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp">
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/txtP1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
+                android:gravity="center"
+                android:text="@string/start"
+                android:textColor="@color/nero"
+                android:textSize="30dp" />
+
+            <Button
+                android:id="@+id/btnStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/bluchiaro"
+                android:text="@string/restart" />
+
+            <TextView
+                android:id="@+id/txtP2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
+                android:gravity="center"
+                android:text="@string/start"
+                android:textColor="@color/nero"
+                android:textSize="30dp" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
