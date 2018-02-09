@@ -36,7 +36,7 @@ public class GiocoActivity extends AppCompatActivity implements Observer {
         txtP2.setText(0 + "");
         txtG1.setText(g1);
         txtG2.setText(g2);
-        t = new Tris(g1, g2);
+        t = new Tris(g1, g2, getIntent().getBooleanExtra("singolo", false));
         t.addObserver(this);
         play();
         findViewById(R.id.btnStart).setOnClickListener(view -> {
@@ -46,7 +46,6 @@ public class GiocoActivity extends AppCompatActivity implements Observer {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void play() {
-        t.reset();
         matrice = new Button[LUNGHEZZA][LUNGHEZZA];
         Resources r = getResources();
         String name = getPackageName();
@@ -63,6 +62,7 @@ public class GiocoActivity extends AppCompatActivity implements Observer {
                 });
             }
         }
+        t.reset();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -81,12 +81,9 @@ public class GiocoActivity extends AppCompatActivity implements Observer {
         }
         if (m.haVinto()) {
             Context c = matrice[0][0].getContext();
-            for (int i = 0; i < LUNGHEZZA; i++) {
-                for (int j = 0; j < LUNGHEZZA; j++) {
-                    if (matrice[i][j].getText().toString().compareTo(m.getSimbolo()) == 0) {
-                        matrice[i][j].setBackgroundTintList(c.getResources().getColorStateList(R.color.bluchiaro));
-                    }
-                }
+            int[] h = m.getVincente();
+            for (int i = 1; i < h.length; i = i + 2) {
+                matrice[h[i - 1]][h[i]].setBackgroundTintList(c.getResources().getColorStateList(R.color.bluchiaro));
             }
             txtP1.setText(m.getP1() + "");
             txtP2.setText(m.getP2() + "");

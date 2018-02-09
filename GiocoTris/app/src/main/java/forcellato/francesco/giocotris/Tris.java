@@ -1,6 +1,7 @@
 package forcellato.francesco.giocotris;
 
 import java.util.Observable;
+import java.util.Random;
 
 /**
  * Created by Francesco Forcellato on 03/02/18.
@@ -24,11 +25,17 @@ public class Tris extends Observable {
     private String nome2;
     private int p1;
     private int p2;
+    private boolean singolo;
+    private int[] vincente;
+    private int mosse;
 
-    public Tris(String nome1, String nome2) {
+    public Tris(String nome1, String nome2, boolean singolo) {
         matrix = new giocatore[DEFAULT][DEFAULT];
         this.nome1 = nome1;
         this.nome2 = nome2;
+        this.singolo = singolo;
+        vincente = new int[DEFAULT * 2];
+        mosse = 0;
         inizializza();
     }
 
@@ -48,6 +55,7 @@ public class Tris extends Observable {
     }
 
     public void reset() {
+        mosse = 0;
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 matrix[i][j] = giocatore.vuoto;
@@ -65,23 +73,151 @@ public class Tris extends Observable {
 
         setChanged();
         notifyObservers(new Mossa(g == giocatore.giocatore1 ? nome1 : nome2, g == giocatore.giocatore2 ? nome1 : nome2, simbolo1, simbolo2, p1, p2));
+        if (singolo && g == giocatore.giocatore2) {
+            giocaMossa();
+        }
     }
 
     public void setMossa(int riga, int colonna) {
         if (!vinto && matrix[riga][colonna] == giocatore.vuoto) {
             matrix[riga][colonna] = g;
-            vinto = vinto();
-            if (vinto) {
-                p1 = g == giocatore.giocatore1 ? p1+1 : p1;
-                p2 = g == giocatore.giocatore2 ? p2+1 : p2;
+            mosse++;
+            setVittoria(riga, colonna);
+            if (!vinto && singolo) {
+                giocaMossa();
             }
-            setChanged();
-            notifyObservers(new Mossa(riga, colonna, g == giocatore.giocatore1 ? nome1 : nome2, vinto, g == giocatore.giocatore1 ? simbolo1 : simbolo2, p1, p2));
-            if (g == giocatore.giocatore1) {
-                g = giocatore.giocatore2;
-            } else {
-                g = giocatore.giocatore1;
+        }
+    }
+
+    private void giocaMossa() {
+        if (mosse < 9) {
+            int riga = -1, colonna = -1;
+            int h = 0;
+            giocatore avversario = g == giocatore.giocatore1 ? giocatore.giocatore2 : giocatore.giocatore1;
+            //per riga
+            for (int i = 0; i < DEFAULT && riga == -1; i++) {
+                h = 0;
+                for (int j = 0; j < DEFAULT && riga == -1; j++) {
+                    if (matrix[i][j] == avversario) {
+                        h++;
+                    }
+                }
+                if (h == 2) {
+                    for (int j = 0; j < DEFAULT && riga == -1; j++) {
+                        if (matrix[i][j] == giocatore.vuoto) {
+                            riga = i;
+                            colonna = j;
+                        }
+                    }
+                }
             }
+            //per colonna
+            for (int i = 0; i < DEFAULT && riga == -1; i++) {
+                h = 0;
+                for (int j = 0; j < DEFAULT && riga == -1; j++) {
+                    if (matrix[j][i] == avversario) {
+                        h++;
+                    }
+                }
+                if (h == 2) {
+                    for (int j = 0; j < DEFAULT; j++) {
+                        if (matrix[j][i] == giocatore.vuoto) {
+                            riga = j;
+                            colonna = i;
+                        }
+                    }
+                }
+            }
+            //per diagonale 1
+            h = 0;
+            for (int i = 0; i < DEFAULT && riga == -1; i++) {
+                if (matrix[i][i] == avversario) {
+                    h++;
+                }
+            }
+            if (h == 2) {
+                for (int i = 0; i < DEFAULT && riga == -1; i++) {
+                    if (matrix[i][i] == giocatore.vuoto) {
+                        riga = i;
+                        colonna = i;
+                    }
+                }
+            }
+            //per diagonale 2
+            h = 0;
+            for (int i = DEFAULT - 1; i >= 0 && riga == -1; i--) {
+                if (matrix[(DEFAULT - 1) - i][i] == avversario) {
+                    h++;
+                }
+            }
+            if (h == 2) {
+                for (int i = DEFAULT - 1; i >= 0 && riga == -1; i--) {
+                    if (matrix[(DEFAULT - 1) - i][i] == giocatore.vuoto) {
+                        riga = (DEFAULT - 1) - i;
+                        colonna = i;
+                    }
+                }
+            }
+            //cerca elementi vicini
+            if (riga == -1) {
+                for (int i = 0; i < DEFAULT; i++) {
+                    for (int j = 0; j < DEFAULT; j++) {
+                        if (matrix[i][j] == g) {
+                            if (i - 1 >= 0 && matrix[i - 1][j] == giocatore.vuoto) {
+                                riga = i - 1;
+                                colonna = j;
+                            } else if (i + 1 < DEFAULT && matrix[i + 1][j] == giocatore.vuoto) {
+                                riga = i + 1;
+                                colonna = j;
+                            } else if (j - 1 >= 0 && matrix[i][j - 1] == giocatore.vuoto) {
+                                riga = i;
+                                colonna = j - 1;
+                            } else if (j + 1 < DEFAULT && matrix[i][j + 1] == giocatore.vuoto) {
+                                riga = i;
+                                colonna = j + 1;
+                            } else if (i - 1 >= 0 && j - 1 >= 0 && matrix[i - 1][j - 1] == giocatore.vuoto) {
+                                riga = i - 1;
+                                colonna = j - 1;
+                            } else if (i - 1 >= 0 && j + 1 < DEFAULT && matrix[i - 1][j + 1] == giocatore.vuoto) {
+                                riga = i - 1;
+                                colonna = j + 1;
+                            } else if (i + 1 < DEFAULT && j - 1 >= 0 && matrix[i + 1][j - 1] == giocatore.vuoto) {
+                                riga = i + 1;
+                                colonna = j - 1;
+                            } else if (i + 1 < DEFAULT && j + 1 < DEFAULT && matrix[i + 1][j + 1] == giocatore.vuoto) {
+                                riga = i + 1;
+                                colonna = j + 1;
+                            }
+                        }
+                    }
+                }
+            }
+            if (riga == -1) {
+
+                Random r = new Random();
+                do {
+                    riga = r.nextInt(3);
+                    colonna = r.nextInt(3);
+                } while (matrix[riga][colonna] != giocatore.vuoto);
+            }
+            matrix[riga][colonna] = g;
+            mosse++;
+            setVittoria(riga, colonna);
+        }
+    }
+
+    private void setVittoria(int riga, int colonna) {
+        vinto = vinto();
+        if (vinto) {
+            p1 = g == giocatore.giocatore1 ? p1 + 1 : p1;
+            p2 = g == giocatore.giocatore2 ? p2 + 1 : p2;
+        }
+        setChanged();
+        notifyObservers(new Mossa(riga, colonna, g == giocatore.giocatore1 ? nome1 : nome2, vinto, g == giocatore.giocatore1 ? simbolo1 : simbolo2, p1, p2, vincente));
+        if (g == giocatore.giocatore1) {
+            g = giocatore.giocatore2;
+        } else {
+            g = giocatore.giocatore1;
         }
     }
 
@@ -100,6 +236,9 @@ public class Tris extends Observable {
                     }
                 }
                 ris = uguale;
+                if (ris) {
+                    vincente = new int[]{i, 0, i, 1, i, 2};
+                }
             }
         }
 
@@ -115,6 +254,9 @@ public class Tris extends Observable {
                         }
                     }
                     ris = uguale;
+                    if (ris) {
+                        vincente = new int[]{0, i, 1, i, 2, i};
+                    }
                 }
             }
         }
@@ -129,6 +271,9 @@ public class Tris extends Observable {
                     }
                 }
                 ris = uguale;
+                if (ris) {
+                    vincente = new int[]{0, 0, 1, 1, 2, 2};
+                }
             }
         }
         if (!ris) {
@@ -142,6 +287,9 @@ public class Tris extends Observable {
                     }
                 }
                 ris = uguale;
+                if (ris) {
+                    vincente = new int[]{0, 2, 1, 1, 2, 0};
+                }
             }
         }
         return ris;
@@ -156,8 +304,9 @@ class Mossa {
     private String simbolo;
     private String simbolo2;
     private int p1, p2;
+    private int[] vincente;
 
-    public Mossa(int riga, int colonna, String g, boolean vinto, String simbolo, int p1, int p2) {
+    public Mossa(int riga, int colonna, String g, boolean vinto, String simbolo, int p1, int p2, int[] vincente) {
         this.riga = riga;
         this.colonna = colonna;
         this.g = g;
@@ -167,6 +316,7 @@ class Mossa {
         this.simbolo2 = null;
         this.p1 = p1;
         this.p2 = p2;
+        this.vincente = vincente;
     }
 
     public Mossa(String g1, String g2, String simbolo1, String simbolo2, int p1, int p2) {
@@ -177,6 +327,11 @@ class Mossa {
         this.simbolo2 = simbolo2;
         this.p1 = p1;
         this.p2 = p2;
+        vincente = null;
+    }
+
+    public int[] getVincente() {
+        return vincente;
     }
 
     public int getRiga() {
