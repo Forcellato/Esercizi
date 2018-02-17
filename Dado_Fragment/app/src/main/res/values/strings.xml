@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Dado_Fragment</string>
+    <string name="titolo">Benvenuto nel gioco del dado!</string>
+    <string name="start">Inizio</string>
+</resources>
