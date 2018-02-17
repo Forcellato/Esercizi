@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GiocoTris</string>
+    <string name="start">start</string>
+    <string name="restart">restart</string>
+    <string name="Singolo">singolo</string>
+    <string name="Multigiocatore">multigiocatore</string>
+</resources>
