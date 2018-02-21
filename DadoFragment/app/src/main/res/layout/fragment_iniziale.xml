@@ -1,0 +1,20 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/chiaro"
+    tools:context="forcellato.francesco.dadofragment.FragmentIniziale">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/iniziale"
+        android:layout_margin="30dp"
+        android:layout_gravity="center"
+        android:gravity=""
+        android:textColor="@color/scuro"
+        android:textSize="30dp"
+        />
+
+</FrameLayout>

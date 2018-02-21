@@ -1,0 +1,18 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:layout_gravity="center"
+    android:background="@color/chiaro"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="forcellato.francesco.dadofragment.FragmentDado">
+
+    <ImageView
+        android:id="@+id/imgFaccia"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center" />
+
+</FrameLayout>
