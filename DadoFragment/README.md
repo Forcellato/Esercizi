@@ -4,7 +4,9 @@
 Lo scopo di questo progetto è quello di utilizzare i fragment per poter simulare il lancio di un dado.
 
 Quando viene aperta l'applicazione viene visualizzato un messaggio di benvenuto che spiega il funzionamento del lancio del dado: il dado infatti può venir lanciato o attraverso uno swipe, oppure attraverso un movimento rapido del dispositivo.
-Per l'animazione del fragment iniziale di benvenuto, sono stati utilizzati degli xml animator, in modo da fare alcune animazioni semplici. Per le animazioni del dado, è stato implementato il codice presente in questo repository: 
+Per l'animazione del fragment iniziale di benvenuto, sono stati utilizzati degli xml animator, in modo da fare alcune animazioni semplici. Per le animazioni del dado, è stato implementato il codice presente in questo repository:
 https://github.com/kakajika/FragmentAnimations
 che permette infatti di poter eseguire delle animazioni grafiche tridimensionali, per poter simulare un cubo, rendendo il dado più verosimile possibile.
-Attraverso accelerometro è stato possibile determinare il rapido movimento del dispositivo, permettendo di cambiare faccia del dado agitando il telefono.
+
+
+Attraverso l'accelerometro è stato possibile determinare il rapido movimento del dispositivo, permettendo di cambiare faccia del dado agitando il telefono.
