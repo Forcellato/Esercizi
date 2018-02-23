@@ -8,8 +8,12 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
 /**
+ * 3D Cube Animation
  * @author kakajika
- * @since 2015/11/27
+ * @since 2015/11/28
+ *
+ * Thanks To kakajika
+ * https://github.com/kakajika/FragmentAnimations
  */
 
 public class ViewPropertyAnimation extends Animation {

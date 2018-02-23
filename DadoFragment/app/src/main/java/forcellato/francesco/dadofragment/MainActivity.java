@@ -10,7 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.widget.Toast;
+
+import forcellato.francesco.dadofragment.animazionecubo.CubeAnimation;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 mAccel = mAccel * 0.9f + delta; // perform low-cut filter
                 if (mAccel > 15) {
                     t = System.currentTimeMillis();
-                    changeFragment(FragmentDado.LEFT, false);
+                    changeFragment(CubeAnimation.LEFT, false);
                 }
             }
         }
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getPointerCount() < 2) {
-            if (System.currentTimeMillis() - t > 500) {
+            if (System.currentTimeMillis() - t > getResources().getInteger(R.integer.durataAnimazione)) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         x1 = event.getX();
@@ -77,56 +78,56 @@ public class MainActivity extends AppCompatActivity {
                         y2 = event.getY();
                         float deltaX = x2 - x1;
                         float deltaY = y2 - y1;
-                        int direzione = FragmentDado.NODIR;
+                        int direzione = CubeAnimation.NODIR;
 
                         if (Math.abs(deltaX) > MIN_DISTANCE) {
                             if (x2 > x1) { // Left to Right swipe action
-                                direzione = FragmentDado.RIGHT;
+                                direzione = CubeAnimation.RIGHT;
                             } else { // Right to Left swipe action
-                                direzione = FragmentDado.LEFT;
+                                direzione = CubeAnimation.LEFT;
                             }
                         }
                         if (Math.abs(deltaY) > MIN_DISTANCE && Math.abs(deltaY) > Math.abs(deltaX)) {
                             if (y2 > y1) { //Up to Down swipe action
-                                direzione = FragmentDado.DOWN;
+                                direzione = CubeAnimation.DOWN;
                             } else { //Down to Up swipe action
-                                direzione = FragmentDado.UP;
+                                direzione = CubeAnimation.UP;
                             }
                         }
-                        if (direzione != FragmentDado.NODIR) {
+                        if (direzione != CubeAnimation.NODIR) {
                             changeFragment(direzione, false);
                         }
                         t = System.currentTimeMillis();
                         break;
                 }
             }
-        } else if (down != null && System.currentTimeMillis() - down > 500) {
+        } else if (down != null && System.currentTimeMillis() - down > getResources().getInteger(R.integer.durataPressione)) {
             down = null;
             x1 = event.getX();
             y1 = event.getY();
-            changeFragment(FragmentDado.RIGHT, true);
+            changeFragment(CubeAnimation.RIGHT, true);
         }
         return super.onTouchEvent(event);
     }
 
     public synchronized void changeFragment(int direction, boolean inizio) {
-        // act only in portrait mode
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         if (fm.findFragmentById(R.id.fragment) instanceof FragmentDado && !inizio) {
-            ft.replace(R.id.fragment, FragmentDado.nextInstance(direction, (FragmentDado) fm.findFragmentById(R.id.fragment)));
+            ((FragmentDado) fm.findFragmentById(R.id.fragment)).setDirection(direction);
+            ft.replace(R.id.fragment, FragmentDado.newInstance(direction));
         } else if (!inizio) {
             switch (direction) {
-                case FragmentDado.UP:
+                case CubeAnimation.UP:
                     ft.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_up);
                     break;
-                case FragmentDado.DOWN:
+                case CubeAnimation.DOWN:
                     ft.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_down);
                     break;
-                case FragmentDado.LEFT:
+                case CubeAnimation.LEFT:
                     ft.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_left);
                     break;
-                case FragmentDado.RIGHT:
+                case CubeAnimation.RIGHT:
                     ft.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
                     break;
             }
@@ -139,19 +140,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onPause() {
+    public void onPause() { //Serve per fermare il rilevamento dell'agitamento del dispositivo
         mSensorManager.unregisterListener(mSensorListener);
         super.onPause();
     }
 
     @Override
-    protected void onStop() {
+    protected void onStop() { //Serve per fermare il rilevamento dell'agitamento del dispositivo
         mSensorManager.unregisterListener(mSensorListener);
         super.onStop();
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart() { //Serve per far partire il rilevamento dell'agitamento del dispositivo
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         super.onStart();

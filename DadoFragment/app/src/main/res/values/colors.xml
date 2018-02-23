@@ -5,10 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="chiaro">#d8fffa</color>
     <color name="scuro">#000008</color>
-    <color name="uno">#6cff7d</color>
-    <color name="due">#ffb86c</color>
-    <color name="tre">#fdff6c</color>
-    <color name="quattro">#6c6cff</color>
-    <color name="cinque">#ee6cff</color>
-    <color name="sei">#ff6c73</color>
+    <color name="casuale">#ff4141</color>
 </resources>

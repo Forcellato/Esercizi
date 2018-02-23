@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">DadoFragment</string>
     <string name="start">inizio</string>
-    <string name="iniziale">Applicazione per simulare il lancio del dado!\n\nAgita o fai uno swipe per iniziare!</string>
+    <string name="iniziale">Applicazione per simulare il lancio del dado!\n\nAgita o fai uno swipe per iniziare!\n\nPer tornare a questa schermata, usa 2 dita!</string>
 </resources>

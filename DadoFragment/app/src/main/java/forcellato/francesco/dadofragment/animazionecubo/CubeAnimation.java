@@ -8,36 +8,35 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
+ * 3D Cube Animation
  * @author kakajika
- * @since 2015/11/27
+ * @since 2015/11/28
+ *
+ * Thanks To kakajika
+ * https://github.com/kakajika/FragmentAnimations
  */
-
 public class CubeAnimation extends ViewPropertyAnimation {
 
     @IntDef({UP, DOWN, LEFT, RIGHT})
     @Retention(RetentionPolicy.SOURCE)
-    @interface Direction {
-    }
-
-    public static final int UP = 1;
-    public static final int DOWN = 2;
-    public static final int LEFT = 3;
+    @interface Direction {}
+    public static final int NODIR = 0;
+    public static final int UP    = 1;
+    public static final int DOWN  = 2;
+    public static final int LEFT  = 3;
     public static final int RIGHT = 4;
 
-    protected final @Direction
-    int mDirection;
+    protected final @Direction int mDirection;
     protected final boolean mEnter;
 
     /**
      * Create new Animation.
-     *
      * @param direction Direction of animation
-     * @param enter     true for Enter / false for Exit
-     * @param duration  Duration of Animation
+     * @param enter true for Enter / false for Exit
+     * @param duration Duration of Animation
      * @return
      */
-    public static @NonNull
-    CubeAnimation create(@Direction int direction, boolean enter, long duration) {
+    public static @NonNull CubeAnimation create(@Direction int direction, boolean enter, long duration) {
         switch (direction) {
             case UP:
             case DOWN:
@@ -79,6 +78,7 @@ public class CubeAnimation extends ViewPropertyAnimation {
             super.applyTransformation(interpolatedTime, t);
             applyTransformation(t);
         }
+
     }
 
     private static class HorizontalCubeAnimation extends CubeAnimation {
@@ -105,6 +105,7 @@ public class CubeAnimation extends ViewPropertyAnimation {
             super.applyTransformation(interpolatedTime, t);
             applyTransformation(t);
         }
+
     }
 
 }
