@@ -29,12 +29,10 @@ public class FragmentDado extends Fragment {
     public static final int LEFT = 3;
     public static final int RIGHT = 4;
     private static final long DURATION = 500;
-
+    private static int prec;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String DIRECTION = "direction";
-
-    private int prec;
 
     public FragmentDado() {
         // Required empty public constructor
@@ -44,25 +42,25 @@ public class FragmentDado extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param prec Parameter 1.
      * @return A new instance of fragment FragmentDado.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentDado newInstance(int prec, int direction) {
+    public static FragmentDado newInstance(int direction) {
         FragmentDado fragment = new FragmentDado();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, prec);
         args.putInt(DIRECTION, direction);
         fragment.setArguments(args);
+        prec = 0;
         return fragment;
     }
 
-    public static FragmentDado nextInstance(int prec, int direction, FragmentDado f) {
+    public static FragmentDado nextInstance(int direction, FragmentDado f) {
         Bundle b = new Bundle();
         b.putInt(ARG_PARAM1, f.getArguments().getInt(ARG_PARAM1));
         b.putInt(DIRECTION, direction);
         f.setArguments(b);
-        return newInstance(prec, direction);
+        return newInstance(direction);
     }
 
     @Override
@@ -74,18 +72,14 @@ public class FragmentDado extends Fragment {
         }
     }
 
-    private int getRandom(int prec) {
+    private int getRandom() {
         Random r = new Random();
-        int ris = 0;
+        int ris;
         do {
             ris = r.nextInt(6) + 1;
         } while (ris == prec);
-        this.prec = ris;
+        prec = ris;
         return ris;
-    }
-
-    public int getPrec() {
-        return prec;
     }
 
     @Override
@@ -94,7 +88,7 @@ public class FragmentDado extends Fragment {
         // Inflate the layout for this fragment
         View ris = inflater.inflate(R.layout.fragment_dado, container, false);
         ImageView faccia = ris.findViewById(R.id.imgFaccia);
-        int rand = getRandom(prec);
+        int rand = getRandom();
         switch (rand) {
             case 1:
                 faccia.setImageResource(R.drawable.uno);
